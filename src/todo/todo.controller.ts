@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { TodoService } from './todo.service';
 
 // http://localhost:3000/api/todos
@@ -11,5 +11,10 @@ export class TodoController {
   getAlltodos() {
     // console.log(this.todoService.getAllTodos());
     return this.todoService.getAllTodos();
+  }
+  @Post()
+  createNewTodo(@Body() data) {
+    const { title, description } = data;
+    return this.todoService.createTodo(title, description);
   }
 }
