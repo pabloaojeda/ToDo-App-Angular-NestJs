@@ -25,4 +25,8 @@ export class TodoService {
     this.repo.create(todo);
     return await this.repo.save(todo);
   }
+  async update(id: number, status: TodoStatus) {
+    await this.repo.update({ id }, { status });
+    return this.repo.findOne({ id });
+  }
 }
