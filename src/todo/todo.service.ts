@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TodoEntity, TodoStatus } from '../Entity/todo.entity';
+import { CreateTodoDto } from '../DTO/createTodo.DTO';
 
 @Injectable()
 export class TodoService {
@@ -13,11 +14,14 @@ export class TodoService {
     return await this.repo.find();
   }
 
-  async createTodo(title: string, description: string) {
+  async createTodo(CreateTodoDto: CreateTodoDto) {
     const todo = new TodoEntity();
+    const { title, description } = CreateTodoDto;
+
     todo.title = title;
     todo.description = description;
     todo.status = TodoStatus.OPEN;
+    // todo.date= CreateTodoDto.createdDate;
     this.repo.create(todo);
     return await this.repo.save(todo);
   }
