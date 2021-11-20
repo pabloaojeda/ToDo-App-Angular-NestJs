@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TodoEntity, TodoStatus } from '../Entity/todo.entity';
@@ -26,7 +26,18 @@ export class TodoService {
     return await this.repo.save(todo);
   }
   async update(id: number, status: TodoStatus) {
-    await this.repo.update({ id }, { status });
-    return this.repo.findOne({ id });
+    try {
+      await this.repo.update({ id }, { status });
+      return this.repo.findOne({ id });
+    } catch (err) {
+      throw new InternalServerErrorException('Something went wrong');
+    }
+  }
+  async delete(id: number) {
+    try {
+      return await this.repo.delete({ id });
+    } catch (err) {
+      throw new InternalServerErrorException('Something went wrong');
+    }
   }
 }

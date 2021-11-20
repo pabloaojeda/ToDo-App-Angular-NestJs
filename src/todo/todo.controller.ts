@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -34,5 +35,10 @@ export class TodoController {
     @Param('id') id: number,
   ) {
     return this.todoService.update(id, status);
+  }
+
+  @Delete(':id')
+  deleteTodo(@Param('id') id: number) {
+    return this.todoService.delete(id);
   }
 }
